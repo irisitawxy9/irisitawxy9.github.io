@@ -1,0 +1,175 @@
+:root{
+  /* On-brand scale (larger text by request) */
+  --title-size: 46px;
+  --header-size: 30px;
+  --body-size: 21px;
+
+  --text: #111418;
+  --muted: #6b6f76;
+  --line: #e8eaee;
+  --rose: #e3c0b8;
+
+  --card-radius: 22px;
+}
+
+/* Scope for spotlight bounds */
+.bento-section{
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Base grid (mobile) */
+.card-grid{
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  grid-template-columns: 1fr; /* single column on small screens */
+}
+
+/* Tablet: 2 columns so things don’t feel super stacked */
+@media (min-width: 768px) and (max-width: 1099px){
+  .card-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ===== Desktop layout (bento mosaic) =====
+   12 cols. Left column spans 1–7, right column spans 8–12.
+   Height reduced ~50% vs original by shrinking row height. */
+@media (min-width:1100px){
+  .bento-layout{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    /* shorter rows to reduce overall height */
+    grid-template-rows: repeat(5, minmax(80px, auto));
+    grid-template-areas:
+      /* row1 */ "ls1 ls1 ls1 ls1 ls1 ls1 ls1 rt  rt  rt  rt  rt"
+      /* row2 */ "ls2 ls2 ls2 ls2 ls2 ls2 ls2 rt  rt  rt  rt  rt"
+      /* row3 */ "lb  lb  lb  lb  lb  lb  lb  rt  rt  rt  rt  rt"
+      /* row4 */ "lb  lb  lb  lb  lb  lb  lb  rb1 rb1 rb1 rb2 rb2"
+      /* row5 */ "lb  lb  lb  lb  lb  lb  lb  rb1 rb1 rb1 rb2 rb2";
+  }
+
+  /* Map to areas – only on desktop so mobile doesn’t stack/overlap */
+  .area-ls1 { grid-area: ls1; }   /* Left small #1 (top) */
+  .area-ls2 { grid-area: ls2; }   /* Left small #2 (under ls1) */
+  .area-lb  { grid-area: lb;  }   /* Left big (bottom) */
+  .area-rt  { grid-area: rt;  }   /* Right big (top) */
+  .area-rb1 { grid-area: rb1; }   /* Right bottom small (left) */
+  .area-rb2 { grid-area: rb2; }   /* Right bottom small (right) */
+}
+
+/* Card styling (kept on brand but shorter) */
+.magic-bento-card{
+  --glow: 0; --mouse-x: 50%; --mouse-y: 50%;
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+
+  /* ↓ shorter cards than original (160px) */
+  min-height: 120px;
+  padding: 18px;
+
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.magic-bento-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(17,20,24,.18);
+  border-color: var(--rose);
+}
+
+/* Background image via CSS var */
+.magic-bento-card::before{
+  content: "";
+  position: absolute; inset: 0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.05) contrast(1.06);
+  z-index: 0;
+}
+.magic-bento-card::after{
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.58));
+  z-index: 1;
+}
+
+/* Larger, readable text on cards */
+.magic-bento-card__header,
+.magic-bento-card__content{
+  position: relative; z-index: 2;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,.45);
+}
+.magic-bento-card__label{
+  font-size: 22px;
+  color: #f6f6f6;
+}
+.magic-bento-card__title{
+  margin:.4rem 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing:.2px;
+}
+.magic-bento-card__description{
+  font-size: 22px;
+  line-height: 1.45;
+  opacity: .98;
+}
+
+/* Cursor-follow glow */
+.magic-bento-card__glow{
+  pointer-events: none;
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(240px circle at var(--mouse-x) var(--mouse-y),
+      rgba(227,192,184,.22) calc(var(--glow) * 0%),
+      rgba(227,192,184,.12) calc(var(--glow) * 28%),
+      rgba(227,192,184,.05) calc(var(--glow) * 48%),
+      transparent           calc(var(--glow) * 64%));
+  mix-blend-mode: screen;
+  transition: background .12s linear;
+}
+
+/* Spotlight that follows mouse inside section */
+.bento-spotlight{
+  position: fixed;
+  width: 640px;       /* width unchanged */
+  height: 320px;      /* height = half of 640px */
+  pointer-events: none;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: 50;
+  background:
+    radial-gradient(circle at center,
+      rgba(227,192,184,0.35) 0%,
+      rgba(227,192,184,0.18) 22%,
+      rgba(227,192,184,0.08) 42%,
+      rgba(227,192,184,0.04) 58%,
+      transparent 72%);
+  mix-blend-mode: screen;
+}
+
+/* Mobile tweak: smaller spotlight so it doesn’t overwhelm small screens,
+   but still keeps proportions (same width:height ratio). */
+@media (max-width: 768px){
+  .bento-spotlight{
+    width: 90vw;  /* scaled to viewport width */
+    height: 45vw; /* half the width */
+  }
+
+  /* Slightly smaller cards on very small screens for better fit */
+  .magic-bento-card{
+    min-height: 110px;
+    padding: 16px;
+  }
+}

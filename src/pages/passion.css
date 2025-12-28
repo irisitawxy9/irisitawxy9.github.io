@@ -1,0 +1,4 @@
+.passion .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+.passion .card{background:#fff; border:1px solid #eee; border-radius:10px; padding:16px}
+.passion .card h3{margin:0 0 6px}
+@media (max-width: 760px){ .passion .grid{grid-template-columns:1fr} }

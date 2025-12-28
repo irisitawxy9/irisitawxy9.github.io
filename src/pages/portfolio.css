@@ -1,0 +1,439 @@
+:root {
+  --lalle-bg: #f9f9f9;
+  --lalle-text: #111;
+  --lalle-green:#7c927b;
+  --lalle-muted: #777;
+  --lalle-line: #e0e0e0;
+  --card-bg: #ffffff;
+  --font-display: "Dream Orphans", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: var(--lalle-bg);
+  color: var(--lalle-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ===== Layout Grid: Flexbox ensures equal height columns ===== */
+.lalle-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+}
+
+/* ===== Sidebar Column ===== */
+.lalle-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: var(--lalle-bg);
+  border-right: 1px solid var(--lalle-line);
+  position: relative;
+  z-index: 50;margin-bottom: -60px;
+}
+
+.sidebar-sticky-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 50px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 32px;
+  margin: 0;
+  line-height: 1;
+  color: var(--lalle-text);
+}
+
+.brand-role {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--lalle-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px; 
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--lalle-muted);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: color 0.2s;
+  padding: 5px 0;
+}
+
+.nav-num {
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0.4;
+  width: 16px;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--lalle-green);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.nav-link.active .nav-num {
+  opacity: 1;
+  color: var(--lalle-text);
+}
+
+/* ===== Right Content Area ===== */
+.lalle-content {
+  flex-grow: 1;
+  position: relative;
+  min-height: 100vh;
+  margin-bottom: -60px;
+  margin-top:20px;
+}
+
+.content-bg {
+  position: absolute;
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  left: 0; 
+  z-index: 0;
+  opacity: 0.6;
+  pointer-events: none;
+  background: #fff; 
+}
+
+/* ===== Split Section Layout ===== */
+.lalle-section {
+  position: relative;
+  z-index: 1;
+  border-bottom: 1px solid var(--lalle-line);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr; 
+  gap: 40px;
+  padding: 100px 6%;
+      background-color: white;
+
+}
+
+.section-left {
+  position: relative;
+}
+
+.sticky-wrapper {
+  position: sticky;
+  top: 100px;
+  padding-right: 20px;
+}
+
+.section-number {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--lalle-muted);
+  display: block;
+  margin-bottom: 16px;
+}
+
+.section-slogan {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 48px);
+  line-height: 1.05;
+  margin: 0 0 20px;
+  color: var(--lalle-text);
+}
+
+.section-desc {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--lalle-muted);
+  max-width: 400px;
+}
+
+/* ===== Right: Cards ===== */
+.stack-container {
+  position: relative;
+  min-height: 100%; 
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40px;
+}
+
+.stack-card {
+  position: sticky; 
+  width: 100%;
+  height: 180px; 
+  background: var(--card-bg);
+  border: 1px solid var(--lalle-line);
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+  display: flex;
+  transition: transform 0.2s ease;
+}
+
+.card-inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.card-media {
+  width: 35%;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--lalle-line);
+  background: #f9f9f9;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.stack-card:hover .card-media img {
+  transform: scale(1.05);
+}
+
+.card-content {
+  flex-grow: 1;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.card-top-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-kicker {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lalle-text);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin: 0 0 6px 0;
+  line-height: 1.1;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.tag-dot {
+  font-size: 9px;
+  padding: 2px 8px;
+  border: 1px solid var(--lalle-line);
+  border-radius: 12px;
+  color: var(--lalle-text);
+    font-weight: 600;
+
+  background: #fcfcfc;
+background:linear-gradient(
+    145deg,
+    rgba(186,220,255,0.9) 0%,
+    rgba(232,210,255,0.85) 40%,
+    rgba(255,226,230,0.9) 100%
+  );
+}
+
+.card-bottom-group {
+  margin-top: 8px;
+}
+
+.card-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lalle-text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--lalle-line);
+  padding-bottom: 1px;
+}
+.card-btn:hover {
+  border-color: var(--lalle-text);
+}
+
+/* ===== Marquee ===== */
+.marquee-block {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.marquee-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.marquee-outer {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-inner {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: scroll 35s linear infinite;
+}
+.reverse .marquee-inner {
+  animation: scroll-rev 40s linear infinite;
+}
+
+@keyframes scroll { to { transform: translateX(-50%); } }
+@keyframes scroll-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+.g-card {
+  width: 200px;
+  height: 140px;
+  border: 1px solid var(--lalle-line);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px; 
+}
+.g-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+}
+
+/* ===== Content Footer ===== */
+.content-footer {
+  position: relative;
+  z-index: 1;
+  padding: 60px 6% 60px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #666;
+  font-size: 13px;
+  background: transparent; 
+}
+
+.footer-text {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.footer-icon-link {
+  color: #666;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+.footer-icon-link:hover {
+  color: #000;
+}
+
+/* ===== Mobile Overrides ===== */
+@media (max-width: 1024px) {
+  .lalle-layout {
+    flex-direction: column;
+  }
+  
+  .lalle-sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--lalle-line);
+  }
+  
+  .sidebar-sticky-inner {
+    position: relative;
+    height: auto;
+    padding: 30px 24px;
+    overflow: visible;
+  }
+
+  /* Hides Navigation Links on Mobile */
+  .sidebar-nav {
+    display: none;
+  }
+  
+  .content-bg {
+    left: 0;
+  }
+  
+  .lalle-section {
+    grid-template-columns: 1fr;
+    padding: 50px 24px;
+    gap: 40px;
+  }
+  
+  .sticky-wrapper {
+    position: relative;
+    top: 0;
+  }
+  
+  /* Stack Card Mobile Layout */
+  .stack-card {
+    height: auto; 
+    min-height: auto;
+  }
+  
+  /* Forces Vertical Stacking */
+  .card-inner {
+    flex-direction: column; 
+  }
+  
+  .card-media {
+    width: 100%;
+    height: 220px;
+    border-right: none;
+    border-bottom: 1px solid var(--lalle-line);
+  }
+  
+  .card-content {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .content-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 24px;
+  }
+}

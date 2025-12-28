@@ -1,0 +1,40 @@
+{
+  "name": "iriswxy-react-jsx",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "@tailwindcss/vite": "^4.1.16",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "gsap": "^3.13.0",
+    "lenis": "^1.3.14",
+    "lucide-react": "^0.552.0",
+    "motion": "^12.23.24",
+    "ogl": "^1.0.11",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^6.26.2",
+    "styled-components": "^6.1.19",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.16"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@vitejs/plugin-react": "^4.3.2",
+    "jsdom": "^25.0.1",
+    "tw-animate-css": "^1.4.0",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.4"
+  }
+}

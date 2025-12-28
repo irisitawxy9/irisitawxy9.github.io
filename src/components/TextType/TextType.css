@@ -1,0 +1,26 @@
+/* Match “# Market to inspire” exactly */
+.text-type-hero {
+  font-size: 36px !important;
+  font-weight: 700 !important;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--text, #111418);
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.text-type-cursor {
+  display: inline-block;
+  width: 0.6ch;
+  margin-left: 6px;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text, #111418);
+  animation: text-type-blink 1s step-end infinite;
+}
+
+@keyframes text-type-blink {
+  50% { opacity: 0; }
+}

@@ -1,0 +1,102 @@
+/* ---------- Pre-arrival: Morphing Hero → Grid (centered & scrolling, smaller 8.5×11 pre-scroll) ---------- */
+
+.em-morph-wrap {
+  position: relative;
+  width: 100%;
+  /* JS sets min-height to create the scroll runway */
+}
+
+.em-morph-sticky {
+  position: sticky;
+  top: 0;
+  display: grid;
+  place-items: center;      /* hero and grid share the same center */
+  min-height: 100vh;
+  overflow: visible;
+  isolation: isolate;
+}
+
+/* Floating hero that shrinks and lands in the center */
+.em-morph-hero {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.em-morph-hero img {
+  /* current smaller pre-scroll size you requested last */
+  width: 800px;
+  height: 1040px;
+  max-width: none;
+  max-height: none;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  transition: transform 0.25s ease-out, opacity 0.15s linear;
+}
+
+/* Perfectly centered grid inside the sticky viewport */
+.em-morph-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  grid-template-rows: repeat(var(--rows, 3), 1fr);
+  gap: var(--gap, 24px);
+  width: var(--grid-w, min(1875px, 92vw));
+  margin: 0 auto;
+  justify-items: stretch;
+  align-items: stretch;
+  opacity: 1;
+  z-index: 1;
+}
+
+.em-morph-cell {
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  transform: translate3d(0, 20px, 0);
+  opacity: 0;
+  aspect-ratio: var(--arw, 4) / var(--arh, 3);
+  will-change: transform, opacity;
+}
+
+.em-morph-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Empty slots (center + immediate left + above/below both) */
+.em-morph-cell.is-center-slot,
+.em-morph-cell.is-left-empty,
+.em-morph-cell.is-empty-slot {
+  opacity: 1;
+  transform: none;
+  background: transparent;
+}
+
+@media (max-width: 1200px) {
+  .em-morph-grid { gap: clamp(16px, 2.2vw, 24px); }
+  /* optional responsive reductions you added earlier can stay */
+}
+@media (max-width: 900px) {
+  .em-morph-hero img {
+    width: 720px;
+    height: 930px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .em-morph-hero img,
+  .em-morph-cell {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .em-morph-grid { opacity: 1 !important; }
+}

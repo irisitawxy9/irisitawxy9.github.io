@@ -1,0 +1,39 @@
+/* Extend the shader above & below the hero and feather the edges with a mask */
+.iridescence-container{
+  position:absolute;
+  left:0;
+  right:0;
+
+  /* extend so no edge is visible */
+  top:-80px;
+  bottom:-260px;
+
+  width:100%;
+  overflow:visible;
+  z-index:0;
+  pointer-events:none;
+
+  /* Feather both edges so it melts into the page gradient */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0px,
+    black 80px,
+    black calc(100% - 280px),
+    transparent 100%
+  );
+  mask-repeat:no-repeat;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0px,
+    black 80px,
+    black calc(100% - 280px),
+    transparent 100%
+  );
+  -webkit-mask-repeat:no-repeat;
+}
+
+.iridescence-container canvas{
+  display:block;
+  width:100% !important;
+  height:100% !important;
+}
