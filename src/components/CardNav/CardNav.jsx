@@ -38,7 +38,6 @@ export default function CardNav({
     closeAll();
   };
 
-  // Treat these as external even if external flag isn't set
   const isExternalHref = (href = "") =>
     /^https?:\/\//i.test(href) || /^mailto:/i.test(href) || /^tel:/i.test(href);
 
@@ -48,14 +47,10 @@ export default function CardNav({
     href,
     external,
     className = "cardnav__link",
-    onClick,
     ...rest
   }) => {
     const isExternal = Boolean(external) || isExternalHref(href);
 
-    // Active state:
-    // With HashRouter, location.pathname is still "/portfolio", etc.
-    // So this logic remains correct.
     const isActive =
       href &&
       !isExternal &&
@@ -67,23 +62,21 @@ export default function CardNav({
 
     if (isExternal) {
       return (
-        <Link
+        <a
           className={finalClass}
           href={href}
           target={/^https?:\/\//i.test(href) ? "_blank" : undefined}
           rel={/^https?:\/\//i.test(href) ? "noreferrer" : undefined}
-          onClick={onClick}
           {...rest}
         >
           {label}
-        </Link>
+        </a>
       );
     }
 
-    // Internal navigation:
-    // Using <Link> is the key fix for GitHub Pages + HashRouter.
+    // Internal links must use React Router Link for HashRouter + GitHub Pages
     return (
-      <Link className={finalClass} to={href} onClick={onClick} {...rest}>
+      <Link className={finalClass} to={href} onClick={handleNavLinkClick} {...rest}>
         {label}
       </Link>
     );
@@ -126,17 +119,12 @@ export default function CardNav({
               return (
                 <li
                   key={it.label}
-                  className={`cardnav__item ${
-                    hasDropdown ? "has-dropdown" : ""
-                  } ${itemIsOpen ? "is-open" : ""}`}
+                  className={`cardnav__item ${hasDropdown ? "has-dropdown" : ""} ${
+                    itemIsOpen ? "is-open" : ""
+                  }`}
                 >
                   <div className="cardnav__topline">
-                    <LinkEl
-                      label={it.label}
-                      href={it.href}
-                      external={it.external}
-                      onClick={handleNavLinkClick}
-                    />
+                    <LinkEl label={it.label} href={it.href} external={it.external} />
 
                     {hasDropdown && (
                       <svg
@@ -164,8 +152,7 @@ export default function CardNav({
                   {hasDropdown && (
                     <div className="cardnav__dropdown">
                       {it.links.map((sub, subIdx) => {
-                        const hasSubmenu =
-                          Array.isArray(sub.links) && sub.links.length > 0;
+                        const hasSubmenu = Array.isArray(sub.links) && sub.links.length > 0;
 
                         const subIsOpen =
                           hasSubmenu &&
@@ -186,7 +173,6 @@ export default function CardNav({
                                 href={sub.href}
                                 external={sub.external}
                                 className="cardnav__dropdownLink"
-                                onClick={handleNavLinkClick}
                               />
 
                               {hasSubmenu && (
@@ -221,7 +207,6 @@ export default function CardNav({
                                     href={leaf.href}
                                     external={leaf.external}
                                     className="cardnav__submenuLink"
-                                    onClick={handleNavLinkClick}
                                   />
                                 ))}
                               </div>
