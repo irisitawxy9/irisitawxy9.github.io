@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./home.css";
 import "./portfolio.css";
 import "./project-management.css";
+import { useSearchParams } from "react-router-dom";
 
 import Iridescence from "../components/Iridescence/Iridescence.jsx";
 
@@ -157,7 +158,9 @@ function MarqueeSection({ id, num, title, slogan, topImages, bottomImages }) {
 
 /* ---------- Main Page ---------- */
 export default function Portfolio() {
-  
+  const [, setSearchParams] = useSearchParams();
+
+const goToSection = (id) => setSearchParams({ section: id });
   const categories = [
     { id: "lifecycle", label: "Marketing Lifecycle", num: "01" },
     { id: "pm", label: "Project Management", num: "02" },
