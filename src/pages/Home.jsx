@@ -201,7 +201,7 @@ export default function Home() {
           <div className="projects-grid tight wider scroll-reveal">
             {/* Card 1 */}
             <a
-              href="/portfolio/website"
+              href="/#/portfolio/website"
               className="project-card scroll-reveal"
               target="_blank"
               rel="noreferrer"
@@ -280,7 +280,7 @@ export default function Home() {
 
             {/* Card 3 */}
             <a
-              href="/portfolio/project-management"
+              href="/#/portfolio/project-management"
               className="project-card scroll-reveal"
               target="_blank"
               rel="noreferrer"
@@ -353,7 +353,7 @@ export default function Home() {
 
             {/* Card 5 */}
             <a
-              href="/portfolio/marketing-lifecycle-campaign"
+              href="/#/portfolio/marketing-lifecycle-campaign"
               className="project-card scroll-reveal"
               target="_blank"
               rel="noreferrer"
@@ -390,7 +390,7 @@ export default function Home() {
 
             {/* Card 6 */}
             <a
-              href="/portfolio/email-marketing"
+              href="/#/portfolio/email-marketing"
               className="project-card scroll-reveal"
               target="_blank"
               rel="noreferrer"
