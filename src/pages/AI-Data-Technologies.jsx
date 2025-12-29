@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import "./branding.css";
 import "./email-marketing.css";
 import BrandingHero from "../components/BrandingHero/BrandingHero.jsx";
@@ -9,10 +10,10 @@ function useReveal() {
     const els = Array.from(document.querySelectorAll(".reveal"));
     if (!els.length) return;
     const io = new IntersectionObserver(
-      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add("in")),
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
       { threshold: 0.18 }
     );
-    els.forEach(el => io.observe(el));
+    els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 }
@@ -36,6 +37,7 @@ function BackToTop() {
       className={`back-to-top ${visible ? "show" : ""}`}
       onClick={scrollToTop}
       aria-label="Back to top"
+      type="button"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +81,9 @@ function EmTextBlock({ id, kicker, title, stat, desc, skills }) {
         {skills?.length ? (
           <div className="em-usp-grid">
             {skills.map((s, i) => (
-              <div className="em-pill" key={i}>{s}</div>
+              <div className="em-pill" key={i}>
+                {s}
+              </div>
             ))}
           </div>
         ) : null}
@@ -169,24 +173,12 @@ function EmPinnedGallery({ id, images, alt = "Gallery panel", gap = 16 }) {
           {images.map((item, i) => (
             <figure key={`${id}-tile-${i}`} className="em-pin-tile">
               {item.type === "video" ? (
-                <video
-                  className="em-pin-img"
-                  src={item.src}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                />
+                <video className="em-pin-img" src={item.src} autoPlay muted loop playsInline />
               ) : (
-                <img
-                  className="em-pin-img"
-                  src={item.src}
-                  alt={`${alt} ${i + 1}`}
-                />
+                <img className="em-pin-img" src={item.src} alt={`${alt} ${i + 1}`} />
               )}
             </figure>
           ))}
-
         </div>
       </div>
     </section>
@@ -196,51 +188,53 @@ function EmPinnedGallery({ id, images, alt = "Gallery panel", gap = 16 }) {
 export default function EmailMarketing() {
   useReveal();
 
-  // You can swap these paths to any individual images you like.
+  const [, setSearchParams] = useSearchParams();
+  const goToSection = (id) => setSearchParams({ section: id });
 
-
-const newsletterTiles = [
-
+  const newsletterTiles = [
     { type: "image", src: "/images/da1.jpg" },
-  { type: "image", src: "/images/da2.jpg" },
-  { type: "image", src: "/images/da3.jpg" },
-  { type: "image", src: "/images/da4.jpg" },
-  { type: "image", src: "/images/da2.jpg" }
-];
-const prearrivalTiles = [
-  { type: "video", src: "/videos/matcha latte.mp4" },
-  { type: "video", src: "/videos/coke.mp4" },
-  { type: "video", src: "/videos/sprite.MOV" },
-  { type: "video", src: "/videos/perfume.mp4" },
+    { type: "image", src: "/images/da2.jpg" },
+    { type: "image", src: "/images/da3.jpg" },
+    { type: "image", src: "/images/da4.jpg" },
+    { type: "image", src: "/images/da2.jpg" },
+  ];
+
+  const prearrivalTiles = [
+    { type: "video", src: "/videos/matcha latte.mp4" },
+    { type: "video", src: "/videos/coke.mp4" },
+    { type: "video", src: "/videos/sprite.MOV" },
+    { type: "video", src: "/videos/perfume.mp4" },
     { type: "video", src: "/videos/final.MOV" },
-  { type: "video", src: "/videos/matcha latte.mp4" }
+    { type: "video", src: "/videos/matcha latte.mp4" },
+  ];
 
-];
-
-const golfTiles = [
-  { type: "image", src: "/images/ai1.png" },
-  { type: "image", src: "/images/ai2.png" },
-  { type: "image", src: "/images/ai3.png" },
-  { type: "image", src: "/images/ai4.png" },
-  { type: "image", src: "/images/ai1.png" }
-];
-
-
-  
+  const golfTiles = [
+    { type: "image", src: "/images/ai1.png" },
+    { type: "image", src: "/images/ai2.png" },
+    { type: "image", src: "/images/ai3.png" },
+    { type: "image", src: "/images/ai4.png" },
+    { type: "image", src: "/images/ai1.png" },
+  ];
 
   return (
     <main className="branding-page email-marketing">
       <div className="theme-bg-sticky" aria-hidden="true" />
 
-      <a href="/#portfolio" className="back-cta" aria-label="Back to portfolio">
+      <Link to="/?section=portfolio" className="back-cta" aria-label="Back to portfolio">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         <span className="label">Portfolio</span>
-      </a>
+      </Link>
 
-       <BrandingHero
-        backHref="/#portfolio"
+      <BrandingHero
+        backHref="/?section=portfolio"
         tabTitle="Portfolio"
         addressText="Projects by Iris"
         eyebrow="AI • Data • Automation"
@@ -249,14 +243,20 @@ const golfTiles = [
         imageSrc="/media/branding-hero.jpg"
       />
 
-      {/* IN THIS PAGE buttons */}
+      {/* IN THIS PAGE -> query param scroll */}
       <div className="em-container reveal">
         <section className="em-section em-inpage-row">
           <h1 className="em-inpage-title">IN THIS PAGE</h1>
           <nav className="em-inpage-links" aria-label="Section links">
-            <a className="em-link-btn" href="#data">Data Analytics Project</a>
-            <a className="em-link-btn" href="#genai">GenAI - Graphic and Video Creation</a>
-            <a className="em-link-btn" href="#analyticalai">Analytical AI - AI Agent</a>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("data")}>
+              Data Analytics Project
+            </button>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("genai")}>
+              GenAI - Graphic and Video Creation
+            </button>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("analyticalai")}>
+              Analytical AI - AI Agent
+            </button>
           </nav>
         </section>
       </div>
@@ -268,13 +268,6 @@ const golfTiles = [
         title="Data Analytics Project – Titanic Survival Modeling"
         stat="Full Analytics LifeCycle"
         desc="End-to-end analysis and predictive modeling project using the Titanic passenger dataset (891 rows, 12 columns). My group translated exploratory findings into feature engineering and model choices, then validated performance using standard classification metrics."
-        bullets={[
-          "Scoped the problem as a classification task (survival prediction) and defined what “success” means before modeling.",
-          "Performed structured EDA (correlations, segment comparisons, distributions) to identify the most influential factors (gender, class, fare, age, family size).",
-          "Cleaned and prepared data: handled missing values (median/mode imputation), dropped high-missingness fields (Cabin), encoded categorical variables, and standardized numerical features for KNN.",
-          "Built and evaluated multiple models (KNN, Decision Tree with pruning, Naive Bayes), comparing accuracy and error rates to select the most effective approach.",
-          "Communicated insights with clear visuals and model interpretation (tree structure + bias–variance curve).",
-        ]}
         skills={[
           "Python (pandas, NumPy)",
           "KNN, Decision Tree, Naive Bayes",
@@ -288,6 +281,7 @@ const golfTiles = [
         ]}
       />
       <EmPinnedGallery id="newsletter" images={newsletterTiles} alt="Newsletter panel" />
+
       <EmDivider />
       <EmTextBlock
         id="genai"
@@ -295,11 +289,6 @@ const golfTiles = [
         title="GenAI – Graphic and Video Creation"
         stat="Multi-tool creative pipeline"
         desc="I used multiple AI and creative tools to generate, iterate, and assemble marketing-ready visuals and videos, while balancing efficiency with brand consistency and quality control."
-        bullets={[
-          "Generated image and video concepts, then iterated prompts and variants to reach a clear creative direction.",
-          "Edited and assembled final deliverables for social and presentations (formatting, pacing, captions, and visual hierarchy).",
-          "Maintained a repeatable workflow: versioning, quick reviews, and selecting the strongest assets based on objectives and audience fit.",
-        ]}
         skills={[
           "Prompt engineering & creative direction",
           "AI image/video generation (Nanobanana, Kling, Jimeng)",
@@ -319,11 +308,6 @@ const golfTiles = [
         title="Analytical AI – AI Agent (Zapier)"
         stat="Automating Research and Posting"
         desc="Built customizable Zapier-based AI Social Media agents to research trends, summarize key takeaways, generate social media post, and post on different social media platforms. The workflow is designed for efficiency, consistency, and quality control."
-        bullets={[
-          "Automated trend discovery and synthesis to reduce manual research time while keeping outputs structured and reusable.",
-          "Designed outputs to be immediately actionable (topic angles, caption drafts, creative prompts, and posting suggestions).",
-          "Implemented review checkpoints to validate sources, adjust tone, and ensure brand alignment before publishing.",
-        ]}
         skills={[
           "Zapier automation design",
           "AI agent workflows",
@@ -336,9 +320,7 @@ const golfTiles = [
       <EmPinnedGallery id="golf" images={golfTiles} alt="Golf panel" />
 
       <EmDivider />
-      
 
-      {/* Back to Top Button */}
       <BackToTop />
     </main>
   );
