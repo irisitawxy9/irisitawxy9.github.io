@@ -220,18 +220,12 @@ export default function EmailMarketing() {
     <main className="branding-page email-marketing">
       <div className="theme-bg-sticky" aria-hidden="true" />
 
-      <Link to="/?section=portfolio" className="back-cta" aria-label="Back to portfolio">
+      <a href="/#portfolio" className="back-cta" aria-label="Back to portfolio">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M15 18l-6-6 6-6"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
         <span className="label">Portfolio</span>
-      </Link>
+      </a>
 
       <BrandingHero
         backHref="/?section=portfolio"
