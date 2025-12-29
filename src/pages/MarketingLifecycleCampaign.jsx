@@ -273,7 +273,9 @@ export default function EmailMarketing() {
           "Performance optimization",
         ]}
       />
-      <YorkInternationalFunnel />
+<div className="funnel-wrapper">
+  <YorkInternationalFunnel />
+</div>
       <EmPinnedGallery id="prearrival" images={prearrivalTiles} alt="Images of some of my work" />
 
       <EmDivider />
@@ -306,7 +308,9 @@ export default function EmailMarketing() {
           "Brand messaging",
         ]}
       />
-      <LakesidetakeoutFunnel />
+<div className="funnel-wrapper">
+  <LakesidetakeoutFunnel />
+</div>
 
       <EmDivider />
 
