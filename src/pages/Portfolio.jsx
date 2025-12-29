@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import "./home.css";
 import "./portfolio.css";
 import "./project-management.css";
-import { useSearchParams } from "react-router-dom";
 
 import Iridescence from "../components/Iridescence/Iridescence.jsx";
 
@@ -20,6 +19,7 @@ function BackToTop() {
       className={`back-to-top ${visible ? "show" : ""}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
+      type="button"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -45,9 +45,7 @@ function useScrollSpy(ids) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
+          if (entry.isIntersecting) setActiveId(entry.target.id);
         });
       },
       { rootMargin: "-30% 0px -60% 0px" }
@@ -71,7 +69,9 @@ function ScrollStack({ id, num, title, slogan, description, items = [] }) {
       {/* Left: Sticky Content */}
       <div className="section-left">
         <div className="sticky-wrapper">
-          <span className="section-number">{num} / {title}</span>
+          <span className="section-number">
+            {num} / {title}
+          </span>
           <h2 className="section-slogan">{slogan}</h2>
           <p className="section-desc">{description}</p>
         </div>
@@ -91,17 +91,34 @@ function ScrollStack({ id, num, title, slogan, description, items = [] }) {
                   <h3 className="card-title">{it.title}</h3>
                   {it.tags && (
                     <div className="card-tags">
-                      {it.tags.map(t => <span key={t} className="tag-dot">{t}</span>)}
+                      {it.tags.map((t) => (
+                        <span key={t} className="tag-dot">
+                          {t}
+                        </span>
+                      ))}
                     </div>
                   )}
                 </div>
                 <div className="card-bottom-group">
                   {it.link ? (
-                    <Link to={it.link} className="card-btn">
-                      {it.ctaText || "View Case Study"}
-                    </Link>
+                    // If it's an internal path (starts with "/"), use <Link>.
+                    // Otherwise use a normal <a> for external URLs.
+                    it.link.startsWith("/") ? (
+                      <Link to={it.link} className="card-btn">
+                        {it.ctaText || "View Case Study"}
+                      </Link>
+                    ) : (
+                      <a
+                        href={it.link}
+                        className="card-btn"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {it.ctaText || "View Case Study"}
+                      </a>
+                    )
                   ) : (
-                     <span className="card-btn disabled">View Details</span>
+                    <span className="card-btn disabled">View Details</span>
                   )}
                 </div>
               </div>
@@ -119,11 +136,13 @@ function MarqueeSection({ id, num, title, slogan, topImages, bottomImages }) {
     <section id={id} className="lalle-section split-section">
       <div className="section-left">
         <div className="sticky-wrapper">
-          <span className="section-number">{num} / {title}</span>
+          <span className="section-number">
+            {num} / {title}
+          </span>
           <h2 className="section-slogan">{slogan}</h2>
           <p className="section-desc">
-            <b>Print</b> (Signage, Magazine Ad, Poster, Brochure, etc.) and 
-            <b> Digital</b> (Display Ad, Email Banner, Social Media, etc.).
+            <b>Print</b> (Signage, Magazine Ad, Poster, Brochure, etc.) and <b> Digital</b> (Display
+            Ad, Email Banner, Social Media, etc.).
           </p>
         </div>
       </div>
@@ -133,20 +152,28 @@ function MarqueeSection({ id, num, title, slogan, topImages, bottomImages }) {
           <div className="marquee-outer">
             <div className="marquee-inner">
               {topImages.map((src, i) => (
-                <div className="g-card" key={`top-${i}`}><img src={src} alt="" /></div>
+                <div className="g-card" key={`top-${i}`}>
+                  <img src={src} alt="" />
+                </div>
               ))}
               {topImages.map((src, i) => (
-                <div className="g-card" key={`top-d-${i}`}><img src={src} alt="" /></div>
+                <div className="g-card" key={`top-d-${i}`}>
+                  <img src={src} alt="" />
+                </div>
               ))}
             </div>
           </div>
           <div className="marquee-outer reverse">
             <div className="marquee-inner">
               {bottomImages.map((src, i) => (
-                <div className="g-card" key={`btm-${i}`}><img src={src} alt="" /></div>
+                <div className="g-card" key={`btm-${i}`}>
+                  <img src={src} alt="" />
+                </div>
               ))}
               {bottomImages.map((src, i) => (
-                <div className="g-card" key={`btm-d-${i}`}><img src={src} alt="" /></div>
+                <div className="g-card" key={`btm-d-${i}`}>
+                  <img src={src} alt="" />
+                </div>
               ))}
             </div>
           </div>
@@ -158,9 +185,8 @@ function MarqueeSection({ id, num, title, slogan, topImages, bottomImages }) {
 
 /* ---------- Main Page ---------- */
 export default function Portfolio() {
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-const goToSection = (id) => setSearchParams({ section: id });
   const categories = [
     { id: "lifecycle", label: "Marketing Lifecycle", num: "01" },
     { id: "pm", label: "Project Management", num: "02" },
@@ -172,7 +198,7 @@ const goToSection = (id) => setSearchParams({ section: id });
     { id: "graphics", label: "Graphic Design", num: "08" },
   ];
 
-  const activeCategory = useScrollSpy(categories.map(c => c.id));
+  const activeCategory = useScrollSpy(categories.map((c) => c.id));
 
   // --- Images ---
   const lakeside = "/images/p_ls.jpg";
@@ -191,8 +217,7 @@ const goToSection = (id) => setSearchParams({ section: id });
   const socialImg = "/images/reel.jpg";
   const paidImg = "/images/paid.jpg";
   const brandingImg = "/images/EMW brand applications.jpg";
-  const travelImg = "/images/travel.jpg";
-  
+
   const graphicTop = [
     "/images/5th-anniversary-Photo-Contest-Flyer.jpg",
     "/images/Plant-a-Tree---Celebration-Remembrance-Feb-2021.jpg",
@@ -214,7 +239,7 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: lasnubes,
       tags: ["Social Media", "Website", "Email Marketing"],
       link: "/marketinglifecyclecampaign?section=costarica",
-      ctaText: "View Campaign"
+      ctaText: "View Campaign",
     },
     {
       title: "Lakeside Seafood & Grill's Land-to-Sea Menu Campaign",
@@ -222,8 +247,8 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: lakeside,
       tags: ["Affiliate Marketing", "Print", "Social Media"],
       link: "/marketinglifecyclecampaign?section=restaurant",
-      ctaText: "View Campaign"
-    }
+      ctaText: "View Campaign",
+    },
   ];
 
   const pmItems = [
@@ -233,7 +258,7 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: pm2Img,
       tags: ["Communications", "Planning", "Requiements Analysis"],
       link: "/project-management?section=headshot",
-      ctaText: "View Process"
+      ctaText: "View Process",
     },
     {
       title: "Enterprise Electronic Approval System",
@@ -241,8 +266,8 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: pm1Img,
       tags: ["Presentation", "Data Analytics", "Communications"],
       link: "/project-management?section=approval",
-      ctaText: "View Process"
-    }
+      ctaText: "View Process",
+    },
   ];
 
   const techItems = [
@@ -250,9 +275,9 @@ const goToSection = (id) => setSearchParams({ section: id });
       title: "Data Analytics Projects",
       kicker: "From descriptive to prescriptive",
       image: aa1Img,
-      tags: ["Google Analytics", "Python", "SQL","Excel","Tableu"],
+      tags: ["Google Analytics", "Python", "SQL", "Excel", "Tableu"],
       link: "/AI-Data-Technologies?section=data",
-      ctaText: "View Details"
+      ctaText: "View Details",
     },
     {
       title: "GenAI - Graphic and Video Creation",
@@ -260,7 +285,7 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: aa2Img,
       tags: ["VEO", "NanoBanana", "Suno"],
       link: "/AI-Data-Technologies?section=genai",
-      ctaText: "View Details"
+      ctaText: "View Details",
     },
     {
       title: "Analytical AI - AI Agent",
@@ -268,16 +293,16 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: aa3Img,
       tags: ["Zapier", "Power Automate", "Agent building"],
       link: "/AI-Data-Technologies?section=analyticalai",
-      ctaText: "View Details"
+      ctaText: "View Details",
     },
-       {
+    {
       title: "Chrome Extension Development & More",
       kicker: "Vibe Coding",
       image: aa4Img,
       tags: ["Github"],
       link: "https://github.com/irisitawxy9?tab=repositories",
-      ctaText: "View Github"
-    }
+      ctaText: "View Github",
+    },
   ];
 
   const emailItems = [
@@ -287,7 +312,7 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: ehotelImg,
       tags: ["Constant Contact", "Data", "A/B Test"],
       link: "/email-marketing?section=prearrival",
-      ctaText: "View More"
+      ctaText: "View More",
     },
     {
       title: "Golf Course Conversion Campaigns",
@@ -295,7 +320,7 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: egolfImg,
       tags: ["Content creation", "A/B Test", "Analytics"],
       link: "/email-marketing?section=golf",
-      ctaText: "View More"
+      ctaText: "View More",
     },
     {
       title: "Monthly Resort Newsletter",
@@ -303,8 +328,8 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: enewsImg,
       tags: ["Storytelling", "Content management", "Analytics"],
       link: "/email-marketing?section=newsletter",
-      ctaText: "View More"
-    }
+      ctaText: "View More",
+    },
   ];
 
   const webItems = [
@@ -312,18 +337,18 @@ const goToSection = (id) => setSearchParams({ section: id });
       title: "Web Redesign & Development",
       kicker: "RECORDKEEPING & IM • UX • UI",
       image: webImg,
-      tags: ["Figma", "WordPress","Accessibility", "Research","Interview","Data analysis"],
+      tags: ["Figma", "WordPress", "Accessibility", "Research", "Interview", "Data analysis"],
       link: "/website",
-      ctaText: "View Project"
+      ctaText: "View Project",
     },
     {
       title: "Full Stack Website (Group)",
       kicker: "DESIGN • BUILD • DEPLOY",
       image: fullstack,
-      tags: ["React", "Database", "Microservices","Containers"],
+      tags: ["React", "Database", "Microservices", "Containers"],
       link: "https://github.com/NaspoDev/bidsure-backend",
-      ctaText: "View GitHub"
-    }
+      ctaText: "View GitHub",
+    },
   ];
 
   const socialItems = [
@@ -333,7 +358,7 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: socialImg,
       tags: ["Contests & Giveaways", "UGC", "Data"],
       link: "/social-media?section=paid",
-      ctaText: "See More"
+      ctaText: "See More",
     },
     {
       title: "Paid Campaign",
@@ -341,8 +366,8 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: paidImg,
       tags: ["Meta Ads", "Retargeting"],
       link: "/social-media?section=static",
-      ctaText: "See More"
-    }
+      ctaText: "See More",
+    },
   ];
 
   const brandingItems = [
@@ -352,13 +377,16 @@ const goToSection = (id) => setSearchParams({ section: id });
       image: brandingImg,
       tags: ["Branding", "Market Research", "Design"],
       link: "/branding",
-      ctaText: "View Details"
+      ctaText: "View Details",
     },
-    
   ];
 
-  const scrollToId = (id) => (e) => {
-    e.preventDefault();
+  // Scroll + set ?section=... (preserves any other existing query params)
+  const goToSection = (id) => {
+    const next = new URLSearchParams(searchParams);
+    next.set("section", id);
+    setSearchParams(next);
+
     const el = document.getElementById(id);
     if (el) {
       const y = el.getBoundingClientRect().top + window.scrollY;
@@ -368,27 +396,25 @@ const goToSection = (id) => setSearchParams({ section: id });
 
   return (
     <div className="lalle-layout">
-      
       <aside className="lalle-sidebar">
-        {/* This wrapper sticks within the flex column */}
         <div className="sidebar-sticky-inner">
           <div className="sidebar-top">
             <h1 className="brand-name">Portfolio</h1>
             <p className="brand-role">Creative Strategist & Developer</p>
           </div>
 
-          <nav className="sidebar-nav">
+          <nav className="sidebar-nav" aria-label="Portfolio categories">
             <ul className="nav-list">
               {categories.map((cat) => (
                 <li key={cat.id} className="nav-item">
-                  <a 
-                    href={`#${cat.id}`} 
+                  <button
+                    type="button"
                     className={`nav-link ${activeCategory === cat.id ? "active" : ""}`}
-                    onClick={scrollToId(cat.id)}
+                    onClick={() => goToSection(cat.id)}
                   >
                     <span className="nav-num">{cat.num}</span>
                     <span className="nav-label">{cat.label}</span>
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -397,77 +423,81 @@ const goToSection = (id) => setSearchParams({ section: id });
       </aside>
 
       <main className="lalle-content">
-        {/* Background is absolute to this container, stretching full height */}
         <div className="content-bg">
-           <Iridescence color={[0.92, 0.92, 0.96]} amplitude={0.05} speed={0.3} mouseReact={false} />
+          <Iridescence color={[0.92, 0.92, 0.96]} amplitude={0.05} speed={0.3} mouseReact={false} />
         </div>
 
-        <ScrollStack 
-          id="lifecycle" num="01"
+        <ScrollStack
+          id="lifecycle"
+          num="01"
           title="Marketing Lifecycle Campaigns"
           slogan="Strategic storytelling that converts across touchpoints."
           description="From awareness to conversion, I design integrated campaigns that move audiences through every stage of the marketing lifecycle. By blending insight-driven strategy with creative execution, I deliver consistent and compelling experiences that resonate across multiple channels."
           items={lifecycleItems}
         />
 
-        <ScrollStack 
-          id="pm" num="02"
+        <ScrollStack
+          id="pm"
+          num="02"
           title="Project Management"
           slogan="Organizing chaos into deliverables."
           description="Leading cross-functional teams and managing resources with Agile methodologies."
           items={pmItems}
         />
 
-        <ScrollStack 
-          id="tech" num="03"
+        <ScrollStack
+          id="tech"
+          num="03"
           title="AI, Data & Other Technologies"
           slogan="Applied Data and Technological solutions."
           description="Using data analytics and AI tools to drive decision-making and automate workflows."
           items={techItems}
         />
 
-        <ScrollStack 
-          id="email" num="04"
+        <ScrollStack
+          id="email"
+          num="04"
           title="Email Marketing"
           slogan="Turning every interaction into a journey, not just a transaction."
           description="Personalized email journeys that nurture leads and drive retention."
           items={emailItems}
         />
 
-        <ScrollStack 
-          id="web" num="05"
+        <ScrollStack
+          id="web"
+          num="05"
           title="Website Design and Development"
           slogan="Where creativity meets data to build digital experiences that perform."
           description="Your website is more than a digital storefront. I combine data-driven UX and visually dynamic UI design to craft websites that don’t just look good, but convert effectively."
           items={webItems}
         />
 
-        <ScrollStack 
-          id="social" num="06"
+        <ScrollStack
+          id="social"
+          num="06"
           title="Social Media"
           slogan="Building community."
           description="Organic and paid strategies that grow audiences and foster engagement."
           items={socialItems}
         />
 
-        <ScrollStack 
-          id="branding" num="07"
+        <ScrollStack
+          id="branding"
+          num="07"
           title="Branding"
           slogan="Identity with impact."
           description="Cohesive visual identities that tell a clear and compelling brand story."
           items={brandingItems}
         />
 
-        <MarqueeSection 
-          id="graphics" num="08"
+        <MarqueeSection
+          id="graphics"
+          num="08"
           title="Graphic Design"
           slogan="Designs that perform."
           topImages={graphicTop}
           bottomImages={graphicBottom}
         />
-
-        
-
       </main>
 
       <BackToTop />
