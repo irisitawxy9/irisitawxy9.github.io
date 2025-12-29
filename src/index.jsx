@@ -11,6 +11,7 @@ createRoot(rootEl).render(
   <React.StrictMode>
     <HashRouter>
       <ScrollToSectionParam />
+      <ScrollManager />
       <App />
     </HashRouter>
   </React.StrictMode>
