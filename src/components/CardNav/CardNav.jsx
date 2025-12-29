@@ -67,7 +67,7 @@ export default function CardNav({
 
     if (isExternal) {
       return (
-        <a
+        <Link
           className={finalClass}
           href={href}
           target={/^https?:\/\//i.test(href) ? "_blank" : undefined}
@@ -76,7 +76,7 @@ export default function CardNav({
           {...rest}
         >
           {label}
-        </a>
+        </Link>
       );
     }
 
