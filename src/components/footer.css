@@ -1,223 +1,85 @@
-/* ---------- Chat Box + Footer Styles ---------- */
 :root {
-  --rose: #e3c0b8;
   --green: #7c927b;
 }
 
-/* Main footer layout */
+/* Footer layout */
 .footer-main {
   margin-top: 20px;
-  position: relative;
-  padding-bottom: 80px;
+  padding-bottom: 90px;
 }
 
-/* Relative wrapper for floating layers */
 .footer-relative {
-  position: relative;
   max-width: 900px;
   margin: 0 auto;
+  padding: 0 18px;
 }
 
-/* ---------- Avatar Above Chat Box ---------- */
-.footer-avatar-wrapper {
+/* Hero block */
+.footer-hero {
   display: flex;
-  justify-content: center;
-  margin-bottom: -50px; /* Pull over the chat card */
-  z-index: 20;
-  position: relative;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-/* Avatar at the top of the section */
+/* Avatar */
 .footer-avatar-top {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .footer-avatar {
   width: 150px;
   height: 150px;
-  border-radius: 50%;
+  border-radius: 999px;
   object-fit: cover;
-  border: 5px solid white;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  border: 6px solid #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
-
-/* ---------- Floating Glass Chat Card ---------- */
-.chat-floating {
-  position: relative;
-  z-index: 10;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 760px;
-
-  /* Glass card styling */
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(18px);
-  border-radius: 22px;
-  padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
-
-  /* Float animation */
-  animation: floatCard 6s ease-in-out infinite;
+/* Text under avatar */
+.footer-intro-text {
+  margin: 8px 0 26px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #2b2b2b;
 }
 
-@keyframes floatCard {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-/* ---------- Chat Box Wrappers ---------- */
-.chat-box-section {
-  width: 100%;
-}
-
-.chat-container {
-  width: 100%;
-}
-
-/* ---------- Chat Input Area ---------- */
-.chat-window {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.chat-title {
-  font-size: 1.7rem;
-  font-weight: 700;
-  margin-bottom: 1.2rem;
-  color: #222;
-  text-align: center;
-}
-
-.chat-input-form {
-  display: flex;
-  flex-direction: column;
+/* Button */
+.contact-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.chat-input {
-  width: 100%;
-  padding: 1rem;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  font-size: 1rem;
-  color: #333;
-  min-height: 80px;
-  resize: vertical;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.chat-input:focus {
-  outline: none;
-  border-color: #7c5bff;
-  box-shadow: 0 0 0 3px rgba(124, 91, 255, 0.25);
-}
-
-/* ---------- Buttons (Send + Get in touch) ---------- */
-.chat-button-row {
-  display: flex;
   justify-content: center;
-  gap: 14px; /* space between buttons */
-  margin-top: 0.5rem;
-}
 
-/* Base shared button styles */
-.chat-submit,
-.chat-secondary-btn {
-  width: 180px;          /* same width */
-  padding: 0.85rem 0;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 10px;
-  border: none;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
+  width: min(420px, 90%);
+  padding: 1.05rem 1.2rem;
 
-/* Send = rose */
-.chat-submit {
-  background: var(--rose);
-  color: #4a3f3c;
-}
-
-.chat-submit:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(227, 192, 184, 0.4);
-}
-
-.chat-submit:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Get in touch = green */
-.chat-secondary-btn {
   background: var(--green);
-  color: #f5f7f5;
+  color: #ffffff;
   text-decoration: none;
-  display: inline-block;
+
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-radius: 18px;
+
+  box-shadow: 0 14px 26px rgba(124, 146, 123, 0.28);
+  transition: transform 0.18s ease, box-shadow 0.22s ease;
 }
 
-.chat-secondary-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(124, 146, 123, 0.4);
+.contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(124, 146, 123, 0.34);
 }
 
-/* ---------- Output Bubble ---------- */
-.chat-output {
-  margin-top: 10px;
-  padding: 16px;
-  background: #fafafa;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  animation: fadeIn 0.3s ease;
-}
-
-.chat-output-label {
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.chat-output-content {
-  line-height: 1.65;
-  font-size: 0.95rem;
-  white-space: normal;
-}
-
-.chat-output-content ul {
-  margin-left: 20px;
-}
-
-.chat-output.error {
-  background: #ffe8e8;
-  border-color: #ffb3b3;
-}
-
-/* Fade animation for messages */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ---------- Footer bottom area ---------- */
+/* Footer bottom */
 .footer-bottom {
   margin-top: 60px;
   text-align: center;
 }
 
 .footer-note {
+  font-size: 0.9rem;
   color: #333;
   margin-bottom: 10px;
-  font-size: 0.9rem;
 }
 
 .footer-ig img {
@@ -226,28 +88,19 @@
   transition: opacity 0.2s ease;
 }
 
-.footer-ig:hover img {
+.footer-ig img:hover {
   opacity: 1;
 }
 
-/* ---------- Responsive ---------- */
+/* Responsive */
 @media (max-width: 768px) {
-
   .footer-avatar {
     width: 120px;
     height: 120px;
   }
 
-  .chat-floating {
-    padding: 1.5rem;
-  }
-
-  .chat-button-row {
-    flex-direction: column;
-  }
-
-  .chat-submit,
-  .chat-secondary-btn {
+  .contact-btn {
     width: 100%;
+    font-size: 1.15rem;
   }
 }
