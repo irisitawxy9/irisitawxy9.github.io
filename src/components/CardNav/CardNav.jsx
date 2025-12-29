@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";   // ← NEW
+import { Link, useLocation } from "react-router-dom";
 import "./CardNav.css";
 
 export default function CardNav({
@@ -13,7 +13,7 @@ export default function CardNav({
   const [openItem, setOpenItem] = useState(null);
   const [openSubItem, setOpenSubItem] = useState(null);
 
-  const location = useLocation();   // ← NEW: get current URL path
+  const location = useLocation();
 
   const closeAll = () => {
     setMenuOpen(false);
@@ -38,34 +38,54 @@ export default function CardNav({
     closeAll();
   };
 
+  // Treat these as external even if external flag isn't set
+  const isExternalHref = (href = "") =>
+    /^https?:\/\//i.test(href) || /^mailto:/i.test(href) || /^tel:/i.test(href);
+
   // ---- Modified Link Component (Adds .is-active automatically) ----
-  const LinkEl = ({ label, href, external, className = "cardnav__link", ...rest }) => {
+  const LinkEl = ({
+    label,
+    href,
+    external,
+    className = "cardnav__link",
+    onClick,
+    ...rest
+  }) => {
+    const isExternal = Boolean(external) || isExternalHref(href);
+
+    // Active state:
+    // With HashRouter, location.pathname is still "/portfolio", etc.
+    // So this logic remains correct.
     const isActive =
       href &&
-      !external &&
-      (location.pathname === href ||
-        location.pathname.startsWith(href + "/")); // highlight children too
+      !isExternal &&
+      (location.pathname === href || location.pathname.startsWith(href + "/"));
 
-    const finalClass = `${className} ${isActive ? "is-active" : ""}`;
+    const finalClass = `${className} ${isActive ? "is-active" : ""}`.trim();
 
     if (!href) return <span className={finalClass}>{label}</span>;
-    if (external)
+
+    if (isExternal) {
       return (
         <a
           className={finalClass}
           href={href}
-          target="_blank"
-          rel="noreferrer"
+          target={/^https?:\/\//i.test(href) ? "_blank" : undefined}
+          rel={/^https?:\/\//i.test(href) ? "noreferrer" : undefined}
+          onClick={onClick}
           {...rest}
         >
           {label}
         </a>
       );
+    }
 
+    // Internal navigation:
+    // Using <Link> is the key fix for GitHub Pages + HashRouter.
     return (
-      <a className={finalClass} href={href} {...rest}>
+      <Link className={finalClass} to={href} onClick={onClick} {...rest}>
         {label}
-      </a>
+      </Link>
     );
   };
 
@@ -73,13 +93,13 @@ export default function CardNav({
     <header className="cardnav">
       <div className="cardnav__inner">
         {/* Logo */}
-        <a className="cardnav__brand" href="/">
+        <Link className="cardnav__brand" to="/" onClick={handleNavLinkClick}>
           {logo ? (
             <img src={logo} alt={logoAlt} />
           ) : (
             <span className="cardnav__brandText">IRIS</span>
           )}
-        </a>
+        </Link>
 
         {/* Mobile Hamburger */}
         <button
