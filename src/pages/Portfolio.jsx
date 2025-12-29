@@ -229,7 +229,7 @@ export default function Portfolio() {
       kicker: "Agile • Scrum",
       image: pm2Img,
       tags: ["Communications", "Planning", "Requiements Analysis"],
-      link: "/project-management",
+      link: "/project-management?section=headshot",
       ctaText: "View Process"
     },
     {
@@ -237,7 +237,7 @@ export default function Portfolio() {
       kicker: "Change Management • Stakeholder Management",
       image: pm1Img,
       tags: ["Presentation", "Data Analytics", "Communications"],
-      link: "/project-management",
+      link: "/project-management?section=approval",
       ctaText: "View Process"
     }
   ];
@@ -248,7 +248,7 @@ export default function Portfolio() {
       kicker: "From descriptive to prescriptive",
       image: aa1Img,
       tags: ["Google Analytics", "Python", "SQL","Excel","Tableu"],
-      link: "/AI-Data-Technologies",
+      link: "/AI-Data-Technologies?section=data",
       ctaText: "View Details"
     },
     {
@@ -256,7 +256,7 @@ export default function Portfolio() {
       kicker: "not all genai is the same",
       image: aa2Img,
       tags: ["VEO", "NanoBanana", "Suno"],
-      link: "/AI-Data-Technologies",
+      link: "/AI-Data-Technologies?section=genai",
       ctaText: "View Details"
     },
     {
@@ -264,7 +264,7 @@ export default function Portfolio() {
       kicker: "Automate Workflow",
       image: aa3Img,
       tags: ["Zapier", "Power Automate", "Agent building"],
-      link: "/AI-Data-Technologies",
+      link: "/AI-Data-Technologies?section=analyticalai",
       ctaText: "View Details"
     },
        {
@@ -283,7 +283,7 @@ export default function Portfolio() {
       kicker: "Optimize conversion through revelance and timely value",
       image: ehotelImg,
       tags: ["Constant Contact", "Data", "A/B Test"],
-      link: "/email-marketing",
+      link: "/email-marketing?section=prearrival",
       ctaText: "View More"
     },
     {
@@ -291,7 +291,7 @@ export default function Portfolio() {
       kicker: "The right content, to the right audience, at the right time.",
       image: egolfImg,
       tags: ["Content creation", "A/B Test", "Analytics"],
-      link: "/email-marketing",
+      link: "/email-marketing?section=golf",
       ctaText: "View More"
     },
     {
@@ -299,7 +299,7 @@ export default function Portfolio() {
       kicker: "Keeping guests connected, one story at a time.",
       image: enewsImg,
       tags: ["Storytelling", "Content management", "Analytics"],
-      link: "/email-marketing",
+      link: "/email-marketing?section=newsletter",
       ctaText: "View More"
     }
   ];
@@ -329,7 +329,7 @@ export default function Portfolio() {
       kicker: "Organic Growth",
       image: socialImg,
       tags: ["Contests & Giveaways", "UGC", "Data"],
-      link: "/social-media",
+      link: "/social-media?section=paid",
       ctaText: "See More"
     },
     {
@@ -337,7 +337,7 @@ export default function Portfolio() {
       kicker: "Conversion",
       image: paidImg,
       tags: ["Meta Ads", "Retargeting"],
-      link: "/social-media",
+      link: "/social-media?section=static",
       ctaText: "See More"
     }
   ];
