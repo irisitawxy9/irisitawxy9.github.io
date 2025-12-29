@@ -62,7 +62,14 @@ body {
 /* Typography scale */
 .hero-type,.page-title,.kpa-title,.brands-title,.testi-title{ font-family:var(--title-font); font-size:var(--title-size); line-height:1.25; }
 .card-title,.testi-hed{ font-size:18px; }
-.hero-sub{font-size:var(--body-size);}
+.hero-sub{
+  color: var(--muted);
+  font-size: clamp(12px, 1.8vw, 14px);
+  line-height: 1.45;
+  margin: 12px 0 0;
+  overflow-wrap: anywhere;
+}
+
 .btn,p,a,span,.card-sub{ font-size:var(--body-size); }
 .testi-loc,.testi-sig{
   font-size: 16px;
@@ -113,6 +120,16 @@ body {
 .btn:active{ transform:translateY(1px) }
 .btn-primary{ background:var(--rose); border-color:var(--rose); color:#fff }
 .btn-ghost{ background:#fff; border-color:var(--line); color:var(--text) }
+/* HERO ONLY: smaller buttons (font + padding) */
+.hero .btn{
+  font-size: clamp(12px, 1.8vw, 14px);
+  padding: clamp(0.55rem, 1.2vw, 0.75rem) clamp(0.85rem, 2vw, 1.05rem);
+  border-radius: 0.85rem;
+}
+
+@media (max-width: 480px){
+  .hero-cta{ gap: 10px; }
+}
 
 /* ===== SECTIONS ===== */
 .section{ padding:64px 0 }
