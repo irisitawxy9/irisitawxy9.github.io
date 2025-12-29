@@ -8,6 +8,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import "./branding.css";
 import "./email-marketing.css";
 import "./project-management.css";
@@ -40,10 +41,18 @@ function BackToTop() {
       className={`back-to-top ${visible ? "show" : ""}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
+      type="button"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-        fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-        className="arrow-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="arrow-icon"
+      >
         <path d="M12 19V5M5 12l7-7 7 7" />
       </svg>
     </button>
@@ -76,7 +85,9 @@ function EmTextBlock({ id, kicker, title, stat, desc, skills }) {
         {skills?.length ? (
           <div className="em-usp-grid">
             {skills.map((s, i) => (
-              <div className="em-pill" key={i}>{s}</div>
+              <div className="em-pill" key={i}>
+                {s}
+              </div>
             ))}
           </div>
         ) : null}
@@ -194,18 +205,18 @@ function EmMorphingGrid({
 
   const totalCells = cols * rows;
 
-  // center + left empty + above/below those (same design you approved)
   const centerIndex = Math.floor(totalCells / 2);
   const centerCol = centerIndex % cols;
-  const leftIndex  = centerCol > 0 ? centerIndex - 1 : null;
-  const topOfLeft   = leftIndex  !== null ? leftIndex  - cols : null;
+  const leftIndex = centerCol > 0 ? centerIndex - 1 : null;
+  const topOfLeft = leftIndex !== null ? leftIndex - cols : null;
   const topOfCenter = centerIndex - cols >= 0 ? centerIndex - cols : null;
-  const botOfLeft   = leftIndex  !== null && leftIndex + cols < totalCells ? leftIndex + cols : null;
+  const botOfLeft = leftIndex !== null && leftIndex + cols < totalCells ? leftIndex + cols : null;
   const botOfCenter = centerIndex + cols < totalCells ? centerIndex + cols : null;
 
   const emptySet = new Set(
-    [centerIndex, leftIndex, topOfLeft, topOfCenter, botOfLeft, botOfCenter]
-      .filter((x) => x !== null && x >= 0 && x < totalCells)
+    [centerIndex, leftIndex, topOfLeft, topOfCenter, botOfLeft, botOfCenter].filter(
+      (x) => x !== null && x >= 0 && x < totalCells
+    )
   );
 
   const gridImageList = useMemo(() => {
@@ -262,8 +273,8 @@ function EmMorphingGrid({
       const map = (x, a, b) => clamp((x - a) / (b - a), 0, 1);
 
       const phaseMove = map(p, 0.28, 0.68);
-      const phaseReveal = map(p, 0.45, 1.00);
-      const gridFade = map(p, 0.30, 1.00);
+      const phaseReveal = map(p, 0.45, 1.0);
+      const gridFade = map(p, 0.3, 1.0);
 
       const gridBox = grid.getBoundingClientRect();
       const dstCx = Math.round(gridBox.left + gridBox.width / 2);
@@ -320,12 +331,10 @@ function EmMorphingGrid({
   return (
     <section id={`${id}-morph`} className="em-morph-wrap reveal" ref={wrapRef}>
       <div className="em-morph-sticky" ref={stickyRef}>
-        {/* Floating hero */}
         <figure className="em-morph-hero">
           <img ref={heroImgRef} src={heroSrc} alt="Headshot hero" />
         </figure>
 
-        {/* Grid (center & neighbors empty as designed) */}
         <div
           className="em-morph-grid"
           ref={gridRef}
@@ -343,22 +352,34 @@ function EmMorphingGrid({
           aria-label="Headshot image grid"
         >
           {Array.from({ length: totalCells }, (_, i) => {
-            const isEmpty = [centerIndex, leftIndex, topOfLeft, topOfCenter, botOfLeft, botOfCenter]
+            const isEmpty = [
+              centerIndex,
+              leftIndex,
+              topOfLeft,
+              topOfCenter,
+              botOfLeft,
+              botOfCenter,
+            ]
               .filter((x) => x !== null)
               .includes(i);
+
             let src = null;
             if (!isEmpty) {
               let emptiesBefore = 0;
               [centerIndex, leftIndex, topOfLeft, topOfCenter, botOfLeft, botOfCenter]
                 .filter((x) => x !== null)
-                .forEach((idx) => { if (idx < i) emptiesBefore++; });
+                .forEach((idx) => {
+                  if (idx < i) emptiesBefore++;
+                });
+
               const listIndex = i - emptiesBefore;
               const fallback = "/images/ce.jpg";
               const source = tiles.length ? tiles : [fallback];
-              const needed = totalCells - 6; // 6 empties
+              const needed = totalCells - 6;
               const looped = Array.from({ length: needed }, (_, k) => source[k % source.length]);
               src = looped[listIndex % looped.length];
             }
+
             return (
               <figure
                 key={`${id}-cell-${i}`}
@@ -367,7 +388,7 @@ function EmMorphingGrid({
                     ? "is-center-slot"
                     : i === leftIndex
                     ? "is-left-empty"
-                    : (i === topOfLeft || i === topOfCenter || i === botOfLeft || i === botOfCenter)
+                    : i === topOfLeft || i === topOfCenter || i === botOfLeft || i === botOfCenter
                     ? "is-empty-slot"
                     : ""
                 }`}
@@ -387,32 +408,43 @@ function EmMorphingGrid({
 export default function EmailMarketing() {
   useReveal();
 
-  // HEADSHOT tiles (non-empty grid cells auto-filled)
+  const [, setSearchParams] = useSearchParams();
+  const goToSection = (id) => setSearchParams({ section: id });
+
   const headshotTiles = [
-    "/images/pm1.jpg","/images/pm3.jpg","/images/pm4.jpg","/images/pm5.jpg",
-    "/images/pm2.jpg","/images/pm6.jpg","/images/ce.jpg","/images/ce.jpg",
-    "/images/pm3.jpg","/images/pm3.jpg"
+    "/images/pm1.jpg",
+    "/images/pm3.jpg",
+    "/images/pm4.jpg",
+    "/images/pm5.jpg",
+    "/images/pm2.jpg",
+    "/images/pm6.jpg",
+    "/images/ce.jpg",
+    "/images/ce.jpg",
+    "/images/pm3.jpg",
+    "/images/pm3.jpg",
   ];
 
-  // APPROVAL gallery tiles (kept as the scrolling gallery)
-  const approvalTiles = [
-    "/images/cr1.png","/images/ea1.jpg","/images/ea2.jpg","/images/ea3.jpg",
-    "/images/ea4.jpg"
-  ];
+  const approvalTiles = ["/images/cr1.png", "/images/ea1.jpg", "/images/ea2.jpg", "/images/ea3.jpg", "/images/ea4.jpg"];
 
   return (
     <main className="branding-page email-marketing">
       <div className="theme-bg-sticky" aria-hidden="true" />
 
-      <a href="/#portfolio" className="back-cta" aria-label="Back to portfolio">
+      <Link to="/?section=portfolio" className="back-cta" aria-label="Back to portfolio">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         <span className="label">Portfolio</span>
-      </a>
+      </Link>
 
       <BrandingHero
-        backHref="/#portfolio"
+        backHref="/?section=portfolio"
         tabTitle="Portfolio"
         addressText="Project Management by Iris"
         eyebrow="Events & Special Projects"
@@ -421,18 +453,21 @@ export default function EmailMarketing() {
         imageSrc="/media/branding-hero.jpg"
       />
 
-      {/* IN THIS PAGE */}
+      {/* IN THIS PAGE -> query param scroll */}
       <div className="em-container reveal">
         <section className="em-section em-inpage-row">
           <h1 className="em-inpage-title">IN THIS PAGE</h1>
           <nav className="em-inpage-links" aria-label="Section links">
-            <a className="em-link-btn" href="#headshot">Cross-ministry Event: Professional Headshot Fundraiser</a>
-            <a className="em-link-btn" href="#approval">Enterprise Digital Approval System</a>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("headshot")}>
+              Cross-ministry Event: Professional Headshot Fundraiser
+            </button>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("approval")}>
+              Enterprise Digital Approval System
+            </button>
           </nav>
         </section>
       </div>
 
-      {/* Headshot */}
       <EmDivider />
       <EmTextBlock
         id="headshot"
@@ -443,9 +478,14 @@ export default function EmailMarketing() {
         registration, and feedback collection. The event successfully engaged staff and students across ministries and raised over $800 
         for a meaningful cause, demonstrating how strategic planning and storytelling can inspire community participation. (images are blurred on purpose, please email me if you have any questions)"
         skills={[
-          "Project management","Event logistics & coordination","Email campaign design",
-          "Stakeholder engagement","Volunteer leadership","Marketing collateral creation",
-          "Fundraising strategy","Performance evaluation"
+          "Project management",
+          "Event logistics & coordination",
+          "Email campaign design",
+          "Stakeholder engagement",
+          "Volunteer leadership",
+          "Marketing collateral creation",
+          "Fundraising strategy",
+          "Performance evaluation",
         ]}
       />
       <EmMorphingGrid
@@ -460,7 +500,6 @@ export default function EmailMarketing() {
         tileAspectH={3}
       />
 
-      {/* Enterprise Electronic Approval System */}
       <EmDivider />
       <EmTextBlock
         id="approval"
@@ -475,19 +514,18 @@ export default function EmailMarketing() {
         improved process efficiency, and strengthened organizational alignment 
         around digital transformation. (images are blurred on purpose, please email me if you have any questions)"
         skills={[
-          "Change management","Stakeholder communication","Training & facilitation",
-          "Community building","Resource development","Root-cause analysis",
-          "Digital adoption strategy","Cross-functional collaboration"
+          "Change management",
+          "Stakeholder communication",
+          "Training & facilitation",
+          "Community building",
+          "Resource development",
+          "Root-cause analysis",
+          "Digital adoption strategy",
+          "Cross-functional collaboration",
         ]}
       />
-      {/* Keep the scrolling gallery design intact */}
-      <EmPinnedGallery
-        id="approval"
-        images={approvalTiles}
-        alt="Enterprise Electronic Approval System visuals"
-      />
+      <EmPinnedGallery id="approval" images={approvalTiles} alt="Enterprise Electronic Approval System visuals" />
 
-      {/* Back to Top */}
       <BackToTop />
     </main>
   );
