@@ -225,7 +225,7 @@ export default function EmailMarketing() {
         addressText="Marketing Lifecycle Campaigns by Iris"
         eyebrow="LIFECYCLE CAMPAIGNS MARKETING"
         title="Marketing Lifecycle Campaign"
-        subtitle="slogan."
+        subtitle="Your Customer's Journey, My Strategic Roadmap."
         imageSrc="/media/branding-hero.jpg"
       />
 
