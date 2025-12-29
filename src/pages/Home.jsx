@@ -243,7 +243,7 @@ export default function Home() {
 
             {/* Card 2 */}
             <a
-              href="/portfolio/social-media"
+              href="/#/portfolio/social-media"
               className="project-card scroll-reveal"
               target="_blank"
               rel="noreferrer"
