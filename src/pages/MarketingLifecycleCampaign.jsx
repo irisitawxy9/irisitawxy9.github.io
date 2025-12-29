@@ -1,10 +1,10 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import "./branding.css";
 import "./email-marketing.css";
 import BrandingHero from "../components/BrandingHero/BrandingHero.jsx";
 import YorkInternationalFunnel from "../components/york_international_Funnel.jsx";
 import LakesidetakeoutFunnel from "../components/lakeside_takeout_Funnel.jsx";
-
 
 /* ---------- Reveal animation ---------- */
 function useReveal() {
@@ -12,10 +12,10 @@ function useReveal() {
     const els = Array.from(document.querySelectorAll(".reveal"));
     if (!els.length) return;
     const io = new IntersectionObserver(
-      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add("in")),
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
       { threshold: 0.18 }
     );
-    els.forEach(el => io.observe(el));
+    els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 }
@@ -39,6 +39,7 @@ function BackToTop() {
       className={`back-to-top ${visible ? "show" : ""}`}
       onClick={scrollToTop}
       aria-label="Back to top"
+      type="button"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +83,9 @@ function EmTextBlock({ id, kicker, title, stat, desc, skills }) {
         {skills?.length ? (
           <div className="em-usp-grid">
             {skills.map((s, i) => (
-              <div className="em-pill" key={i}>{s}</div>
+              <div className="em-pill" key={i}>
+                {s}
+              </div>
             ))}
           </div>
         ) : null}
@@ -172,20 +175,9 @@ function EmPinnedGallery({ id, images, alt = "Gallery panel", gap = 16 }) {
           {images.map((item, i) => (
             <figure key={`${id}-tile-${i}`} className="em-pin-tile">
               {item.type === "video" ? (
-                <video
-                  className="em-pin-img"
-                  src={item.src}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                />
+                <video className="em-pin-img" src={item.src} autoPlay muted loop playsInline />
               ) : (
-                <img
-                  className="em-pin-img"
-                  src={item.src}
-                  alt={`${alt} ${i + 1}`}
-                />
+                <img className="em-pin-img" src={item.src} alt={`${alt} ${i + 1}`} />
               )}
             </figure>
           ))}
@@ -198,36 +190,44 @@ function EmPinnedGallery({ id, images, alt = "Gallery panel", gap = 16 }) {
 export default function EmailMarketing() {
   useReveal();
 
-  // You can swap these paths to any individual images you like.
+  const [, setSearchParams] = useSearchParams();
+  const goToSection = (id) => setSearchParams({ section: id });
 
-const prearrivalTiles = [
-  { type: "image", src: "/images/cr1.png" },
-  { type: "image", src: "/images/cr2.png" },
-  { type: "image", src: "/images/cr3.png" },
-  { type: "image", src: "/images/cr4.png" },  { type: "image", src: "/images/cr2.png" },
+  const prearrivalTiles = [
+    { type: "image", src: "/images/cr1.png" },
+    { type: "image", src: "/images/cr2.png" },
+    { type: "image", src: "/images/cr3.png" },
+    { type: "image", src: "/images/cr4.png" },
+    { type: "image", src: "/images/cr2.png" },
+  ];
 
-];
-
-const golfTiles = [
-  { type: "video", src: "/videos/matcha latte.mp4" },
-  { type: "image", src: "/images/prearrival-2.png" },
-  { type: "image", src: "/images/prearrival-3.png" },
-  { type: "image", src: "/images/prearrival-4.png" },
-];
+  const golfTiles = [
+    { type: "video", src: "/videos/matcha latte.mp4" },
+    { type: "image", src: "/images/prearrival-2.png" },
+    { type: "image", src: "/images/prearrival-3.png" },
+    { type: "image", src: "/images/prearrival-4.png" },
+  ];
 
   return (
     <main className="branding-page email-marketing">
       <div className="theme-bg-sticky" aria-hidden="true" />
 
-      <a href="/#portfolio" className="back-cta" aria-label="Back to portfolio">
+      {/* Back to Portfolio via query params (no anchors) */}
+      <Link to="/?section=portfolio" className="back-cta" aria-label="Back to portfolio">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         <span className="label">Portfolio</span>
-      </a>
+      </Link>
 
       <BrandingHero
-        backHref="/#portfolio"
+        backHref="/?section=portfolio"
         tabTitle="Portfolio"
         addressText="Marketing Lifecycle Campaigns by Iris"
         eyebrow="LIFECYCLE CAMPAIGNS MARKETING"
@@ -236,14 +236,17 @@ const golfTiles = [
         imageSrc="/media/branding-hero.jpg"
       />
 
-      {/* IN THIS PAGE buttons */}
+      {/* IN THIS PAGE buttons -> query param scroll */}
       <div className="em-container reveal">
         <section className="em-section em-inpage-row">
           <h1 className="em-inpage-title">IN THIS PAGE</h1>
           <nav className="em-inpage-links" aria-label="Section links">
-            <a className="em-link-btn" href="#costarica">Costa Rica Study Abroad Summer Program Campaign
-</a>
-            <a className="em-link-btn" href="#restaurant">Restaurant Takeout Campaign</a>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("costarica")}>
+              Costa Rica Study Abroad Summer Program Campaign
+            </button>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("restaurant")}>
+              Restaurant Takeout Campaign
+            </button>
           </nav>
         </section>
       </div>
@@ -259,10 +262,22 @@ const golfTiles = [
         Leveraged multi-channel approach combining digital advertising, social media, email marketing, event promotion, 
         and strategic partnerships to guide students through their decision journey. (images are blurred on purpose, please email me if you have any questions)"
         skills={[
-          "Marketing lifecycle strategy","Multi-channel campaign management","Higher education marketing","Student recruitment",
-          "Social media marketing","Email marketing automation","Event marketing","Partnership development",
-          "Content creation & copywriting","Graphic design","Campaign analytics","Budget management",
-          "Stakeholder collaboration","User-generated content strategy","Community building","Performance optimization"
+          "Marketing lifecycle strategy",
+          "Multi-channel campaign management",
+          "Higher education marketing",
+          "Student recruitment",
+          "Social media marketing",
+          "Email marketing automation",
+          "Event marketing",
+          "Partnership development",
+          "Content creation & copywriting",
+          "Graphic design",
+          "Campaign analytics",
+          "Budget management",
+          "Stakeholder collaboration",
+          "User-generated content strategy",
+          "Community building",
+          "Performance optimization",
         ]}
       />
       <YorkInternationalFunnel />
@@ -280,18 +295,28 @@ const golfTiles = [
         strategic partnerships (hotel pre-arrival emails, local event listings) to maximize reach within the target 
         geographic area. (please email me if you would like to see the work example)"
         skills={[
-          "Local marketing strategy","Restaurant marketing","Multi-channel campaign execution","Partnership development",
-          "Social media management","Email marketing","Event promotion","Community engagement",
-          "Graphic design","Copywriting","Print advertising","Digital advertising",
-          "Hospitality marketing","Customer acquisition","Performance tracking","Brand messaging"
+          "Local marketing strategy",
+          "Restaurant marketing",
+          "Multi-channel campaign execution",
+          "Partnership development",
+          "Social media management",
+          "Email marketing",
+          "Event promotion",
+          "Community engagement",
+          "Graphic design",
+          "Copywriting",
+          "Print advertising",
+          "Digital advertising",
+          "Hospitality marketing",
+          "Customer acquisition",
+          "Performance tracking",
+          "Brand messaging",
         ]}
       />
       <LakesidetakeoutFunnel />
 
       <EmDivider />
-      
 
-      {/* Back to Top Button */}
       <BackToTop />
     </main>
   );
