@@ -21,7 +21,7 @@
   /* Accessibility sizes */
   --title-size: 40px;
   --header-size: 24px;
-  --body-size: 18px;
+  --body-size: 16px;
 }
 
 *{box-sizing:border-box}
