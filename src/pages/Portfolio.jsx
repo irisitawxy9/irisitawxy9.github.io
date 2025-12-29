@@ -210,7 +210,7 @@ export default function Portfolio() {
       kicker: "Awareness → Conversion",
       image: lasnubes,
       tags: ["Social Media", "Website", "Email Marketing"],
-      link: "/marketinglifecyclecampaign",
+      link: "/marketinglifecyclecampaign?section=costarica",
       ctaText: "View Campaign"
     },
     {
@@ -218,7 +218,7 @@ export default function Portfolio() {
       kicker: "Paid • Owned • Earned",
       image: lakeside,
       tags: ["Affiliate Marketing", "Print", "Social Media"],
-      link: "/marketinglifecyclecampaign#restaurant",
+      link: "/marketinglifecyclecampaign?section=restaurant",
       ctaText: "View Campaign"
     }
   ];
