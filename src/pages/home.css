@@ -58,6 +58,13 @@ body {
   text-align:center;
   font-size: 18px;
 }
+@media (max-width: 768px){
+  .hero-card{
+    width: 92%;        /* reduces white box width on mobile */
+    max-width: 560px;  /* prevents it from stretching edge-to-edge */
+    margin: 0 auto;
+  }
+}
 
 /* Typography scale */
 .hero-type,.page-title,.kpa-title,.brands-title,.testi-title{ font-family:var(--title-font); font-size:var(--title-size); line-height:1.25; }
