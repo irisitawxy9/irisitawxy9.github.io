@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./branding.css";
 import "./email-marketing.css";
 import BrandingHero from "../components/BrandingHero/BrandingHero.jsx";
+import { useSearchParams } from "react-router-dom";
 
 /* ---------- Reveal animation ---------- */
 function useReveal() {
@@ -179,6 +180,9 @@ function EmPinnedGallery({ id, images, alt = "Gallery panel", gap = 16 }) {
 
 export default function EmailMarketing() {
   useReveal();
+const [, setSearchParams] = useSearchParams();
+
+const goToSection = (id) => setSearchParams({ section: id });
 
   // You can swap these paths to any individual images you like.
   const prearrivalTiles = [
@@ -228,10 +232,17 @@ export default function EmailMarketing() {
         <section className="em-section em-inpage-row">
           <h1 className="em-inpage-title">IN THIS PAGE</h1>
           <nav className="em-inpage-links" aria-label="Section links">
-            <a className="em-link-btn" href="#prearrival">Hotel Booking Email Lifecycle</a>
-            <a className="em-link-btn" href="#golf">Golf Course Conversion Campaigns</a>
-            <a className="em-link-btn" href="#newsletter">Monthly Resort Newsletter</a>
-          </nav>
+  <button type="button" className="em-link-btn" onClick={() => goToSection("prearrival")}>
+    Hotel Booking Email Lifecycle
+  </button>
+  <button type="button" className="em-link-btn" onClick={() => goToSection("golf")}>
+    Golf Course Conversion Campaigns
+  </button>
+  <button type="button" className="em-link-btn" onClick={() => goToSection("newsletter")}>
+    Monthly Resort Newsletter
+  </button>
+</nav>
+
         </section>
       </div>
 
