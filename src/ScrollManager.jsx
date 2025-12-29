@@ -17,7 +17,6 @@ export default function ScrollManager() {
           el.scrollIntoView({ behavior: "smooth", block: "start" });
           return;
         }
-        // Retry briefly in case the target mounts after navigation
         if (attempt < 10) window.setTimeout(() => tryScroll(attempt + 1), 50);
       };
 
@@ -25,12 +24,11 @@ export default function ScrollManager() {
       return;
     }
 
-    // No section param: always start at top when navigating to a new page.
-    // Use instant to avoid weird mid-page landing, especially on GitHub Pages.
+    // Otherwise always reset to top on page/route change.
     requestAnimationFrame(() => {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     });
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search, params]);
 
   return null;
 }
