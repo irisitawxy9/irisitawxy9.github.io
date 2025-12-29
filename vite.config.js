@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/<irisitawxy9.github.io>/',  
+  base: '/', // IMPORTANT for irisitawxy9.github.io user site
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
