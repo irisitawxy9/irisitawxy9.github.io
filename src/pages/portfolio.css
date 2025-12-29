@@ -18,7 +18,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== Layout Grid: Flexbox ensures equal height columns ===== */
+/* ===== Layout Grid ===== */
 .lalle-layout {
   display: flex;
   width: 100%;
@@ -33,7 +33,7 @@ body {
   background: var(--lalle-bg);
   border-right: 1px solid var(--lalle-line);
   position: relative;
-  z-index: 50;margin-bottom: -60px;
+  z-index: 50;
 }
 
 .sidebar-sticky-inner {
@@ -44,6 +44,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .brand-name {
@@ -62,12 +63,14 @@ body {
   letter-spacing: 0.05em;
 }
 
+/* ===== Sidebar Navigation ===== */
 .sidebar-nav {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 20px 0;
+  min-height: 240px;
 }
 
 .nav-list {
@@ -76,18 +79,38 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px; 
+  gap: 6px;
 }
 
+.nav-item {
+  display: block;
+}
+
+/* RESET + STYLE BUTTON NAV LINKS */
 .nav-link {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  margin: 0;
+
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+
+  font: inherit;
+  line-height: 1.2;
+
   text-decoration: none;
   color: var(--lalle-muted);
   font-size: 13px;
+
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: color 0.2s;
+
   padding: 5px 0;
+  transition: color 0.2s ease;
 }
 
 .nav-num {
@@ -97,14 +120,23 @@ body {
   width: 16px;
 }
 
-.nav-link:hover, .nav-link.active {
+.nav-link:hover,
+.nav-link.active {
   color: var(--lalle-green);
   font-weight: 800;
   text-transform: uppercase;
 }
+
 .nav-link.active .nav-num {
   opacity: 1;
   color: var(--lalle-text);
+}
+
+/* Accessible focus */
+.nav-link:focus-visible {
+  outline: 2px solid rgba(124, 146, 123, 0.6);
+  outline-offset: 4px;
+  border-radius: 6px;
 }
 
 /* ===== Right Content Area ===== */
@@ -112,20 +144,16 @@ body {
   flex-grow: 1;
   position: relative;
   min-height: 100vh;
-  margin-bottom: -60px;
-  margin-top:20px;
 }
 
+/* Background */
 .content-bg {
   position: absolute;
-  top: 0; 
-  right: 0; 
-  bottom: 0; 
-  left: 0; 
+  inset: 0;
   z-index: 0;
   opacity: 0.6;
   pointer-events: none;
-  background: #fff; 
+  background: #fff;
 }
 
 /* ===== Split Section Layout ===== */
@@ -134,11 +162,10 @@ body {
   z-index: 1;
   border-bottom: 1px solid var(--lalle-line);
   display: grid;
-  grid-template-columns: 1fr 1.2fr; 
+  grid-template-columns: 1fr 1.2fr;
   gap: 40px;
   padding: 100px 6%;
-      background-color: white;
-
+  background-color: white;
 }
 
 .section-left {
@@ -177,22 +204,20 @@ body {
 /* ===== Right: Cards ===== */
 .stack-container {
   position: relative;
-  min-height: 100%; 
   display: flex;
   flex-direction: column;
   padding-bottom: 40px;
 }
 
 .stack-card {
-  position: sticky; 
+  position: sticky;
   width: 100%;
-  height: 180px; 
+  height: 180px;
   background: var(--card-bg);
   border: 1px solid var(--lalle-line);
   margin-bottom: 24px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.04);
   display: flex;
-  transition: transform 0.2s ease;
 }
 
 .card-inner {
@@ -215,6 +240,7 @@ body {
   object-fit: cover;
   transition: transform 0.5s ease;
 }
+
 .stack-card:hover .card-media img {
   transform: scale(1.05);
 }
@@ -228,24 +254,18 @@ body {
   gap: 6px;
 }
 
-.card-top-group {
-  display: flex;
-  flex-direction: column;
-}
-
 .card-kicker {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--lalle-text);
-  display: block;
   margin-bottom: 4px;
 }
 
 .card-title {
   font-family: var(--font-display);
   font-size: 20px;
-  margin: 0 0 6px 0;
+  margin: 0 0 6px;
   line-height: 1.1;
 }
 
@@ -261,20 +281,13 @@ body {
   padding: 2px 8px;
   border: 1px solid var(--lalle-line);
   border-radius: 12px;
-  color: var(--lalle-text);
-    font-weight: 600;
-
-  background: #fcfcfc;
-background:linear-gradient(
+  font-weight: 600;
+  background: linear-gradient(
     145deg,
     rgba(186,220,255,0.9) 0%,
     rgba(232,210,255,0.85) 40%,
     rgba(255,226,230,0.9) 100%
   );
-}
-
-.card-bottom-group {
-  margin-top: 8px;
 }
 
 .card-btn {
@@ -283,8 +296,8 @@ background:linear-gradient(
   color: var(--lalle-text);
   text-decoration: none;
   border-bottom: 1px solid var(--lalle-line);
-  padding-bottom: 1px;
 }
+
 .card-btn:hover {
   border-color: var(--lalle-text);
 }
@@ -314,12 +327,19 @@ background:linear-gradient(
   width: max-content;
   animation: scroll 35s linear infinite;
 }
+
 .reverse .marquee-inner {
   animation: scroll-rev 40s linear infinite;
 }
 
-@keyframes scroll { to { transform: translateX(-50%); } }
-@keyframes scroll-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@keyframes scroll {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes scroll-rev {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
 
 .g-card {
   width: 200px;
@@ -329,40 +349,13 @@ background:linear-gradient(
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px; 
+  padding: 10px;
 }
+
 .g-card img {
   width: 100%;
   height: 100%;
-  object-fit: contain; 
-}
-
-/* ===== Content Footer ===== */
-.content-footer {
-  position: relative;
-  z-index: 1;
-  padding: 60px 6% 60px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  color: #666;
-  font-size: 13px;
-  background: transparent; 
-}
-
-.footer-text {
-  margin: 0;
-  line-height: 1.5;
-}
-
-.footer-icon-link {
-  color: #666;
-  transition: color 0.2s;
-  display: flex;
-  align-items: center;
-}
-.footer-icon-link:hover {
-  color: #000;
+  object-fit: contain;
 }
 
 /* ===== Mobile Overrides ===== */
@@ -370,14 +363,13 @@ background:linear-gradient(
   .lalle-layout {
     flex-direction: column;
   }
-  
+
   .lalle-sidebar {
     width: 100%;
-    height: auto;
     border-right: none;
     border-bottom: 1px solid var(--lalle-line);
   }
-  
+
   .sidebar-sticky-inner {
     position: relative;
     height: auto;
@@ -385,55 +377,37 @@ background:linear-gradient(
     overflow: visible;
   }
 
-  /* Hides Navigation Links on Mobile */
   .sidebar-nav {
     display: none;
   }
-  
-  .content-bg {
-    left: 0;
-  }
-  
+
   .lalle-section {
     grid-template-columns: 1fr;
     padding: 50px 24px;
-    gap: 40px;
   }
-  
+
   .sticky-wrapper {
     position: relative;
     top: 0;
   }
-  
-  /* Stack Card Mobile Layout */
+
   .stack-card {
-    height: auto; 
-    min-height: auto;
+    height: auto;
   }
-  
-  /* Forces Vertical Stacking */
+
   .card-inner {
-    flex-direction: column; 
+    flex-direction: column;
   }
-  
+
   .card-media {
     width: 100%;
     height: 220px;
     border-right: none;
     border-bottom: 1px solid var(--lalle-line);
   }
-  
-  .card-content {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
 
-  .content-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 40px 24px;
+  .card-content {
+    padding: 20px;
+    gap: 12px;
   }
 }
