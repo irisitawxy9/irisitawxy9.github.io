@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import "./branding.css";
 import "./email-marketing.css";
 import BrandingHero from "../components/BrandingHero/BrandingHero.jsx";
@@ -9,10 +10,10 @@ function useReveal() {
     const els = Array.from(document.querySelectorAll(".reveal"));
     if (!els.length) return;
     const io = new IntersectionObserver(
-      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add("in")),
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
       { threshold: 0.18 }
     );
-    els.forEach(el => io.observe(el));
+    els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 }
@@ -36,6 +37,7 @@ function BackToTop() {
       className={`back-to-top ${visible ? "show" : ""}`}
       onClick={scrollToTop}
       aria-label="Back to top"
+      type="button"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +81,9 @@ function EmTextBlock({ id, kicker, title, stat, desc, skills }) {
         {skills?.length ? (
           <div className="em-usp-grid">
             {skills.map((s, i) => (
-              <div className="em-pill" key={i}>{s}</div>
+              <div className="em-pill" key={i}>
+                {s}
+              </div>
             ))}
           </div>
         ) : null}
@@ -169,20 +173,9 @@ function EmPinnedGallery({ id, images, alt = "Gallery panel", gap = 16 }) {
           {images.map((item, i) => (
             <figure key={`${id}-tile-${i}`} className="em-pin-tile">
               {item.type === "video" ? (
-                <video
-                  className="em-pin-img"
-                  src={item.src}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                />
+                <video className="em-pin-img" src={item.src} autoPlay muted loop playsInline />
               ) : (
-                <img
-                  className="em-pin-img"
-                  src={item.src}
-                  alt={`${alt} ${i + 1}`}
-                />
+                <img className="em-pin-img" src={item.src} alt={`${alt} ${i + 1}`} />
               )}
             </figure>
           ))}
@@ -192,45 +185,52 @@ function EmPinnedGallery({ id, images, alt = "Gallery panel", gap = 16 }) {
   );
 }
 
-export default function EmailMarketing() {
+export default function SocialMedia() {
   useReveal();
 
+  const [, setSearchParams] = useSearchParams();
+  const goToSection = (id) => setSearchParams({ section: id });
+
   // You can swap these paths to any individual images you like.
-const prearrivalTiles = [
-  { type: "image", src: "/images/sog1.jpg" },
-  { type: "image", src: "/images/sog2.jpg" },
-  { type: "image", src: "/images/sog1.jpg" },
-];
+  const prearrivalTiles = [
+    { type: "image", src: "/images/sog1.jpg" },
+    { type: "image", src: "/images/sog2.jpg" },
+    { type: "image", src: "/images/sog1.jpg" },
+  ];
 
-const golfTiles = [
-  { type: "image", src: "/images/o1.jpg" },
-  { type: "image", src: "/images/o2.jpg" },
-  { type: "image", src: "/images/o1.jpg" },
-];
+  const golfTiles = [
+    { type: "image", src: "/images/o1.jpg" },
+    { type: "image", src: "/images/o2.jpg" },
+    { type: "image", src: "/images/o1.jpg" },
+  ];
+
   const newsletterTiles = [
-  { type: "image", src: "/images/d1.jpg" },
-  { type: "image", src: "/images/d2.jpg" },
-  { type: "image", src: "/images/d3.jpg" },
     { type: "image", src: "/images/d1.jpg" },
-
-];
-
-
-
+    { type: "image", src: "/images/d2.jpg" },
+    { type: "image", src: "/images/d3.jpg" },
+    { type: "image", src: "/images/d1.jpg" },
+  ];
 
   return (
     <main className="branding-page email-marketing">
       <div className="theme-bg-sticky" aria-hidden="true" />
 
-      <a href="/#portfolio" className="back-cta" aria-label="Back to portfolio">
+      {/* Back to Portfolio via query params */}
+      <Link to="/?section=portfolio" className="back-cta" aria-label="Back to portfolio">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         <span className="label">Portfolio</span>
-      </a>
+      </Link>
 
       <BrandingHero
-        backHref="/#portfolio"
+        backHref="/?section=portfolio"
         tabTitle="Portfolio"
         addressText="Social Media by Iris"
         eyebrow="Paid & Owned"
@@ -239,14 +239,20 @@ const golfTiles = [
         imageSrc="/media/branding-hero.jpg"
       />
 
-      {/* IN THIS PAGE buttons */}
+      {/* IN THIS PAGE buttons -> query params */}
       <div className="em-container reveal">
         <section className="em-section em-inpage-row">
           <h1 className="em-inpage-title">IN THIS PAGE</h1>
           <nav className="em-inpage-links" aria-label="Section links">
-            <a className="em-link-btn" href="#paid">Paid Campaign for a Local Restaurant</a>
-            <a className="em-link-btn" href="#static">Organic Static Posting</a>
-            <a className="em-link-btn" href="#dynamic">Organic Dynamic Posting</a>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("paid")}>
+              Paid Campaign for a Local Restaurant
+            </button>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("static")}>
+              Organic Static Posting
+            </button>
+            <button type="button" className="em-link-btn" onClick={() => goToSection("dynamic")}>
+              Organic Dynamic Posting
+            </button>
           </nav>
         </section>
       </div>
@@ -257,9 +263,9 @@ const golfTiles = [
         kicker="Performance-first advertising built for real-world conversion."
         title="Paid Campaign for a Local Restaurant"
         stat="Objective: Conversion - Increase visits & sales"
-desc="Planned and executed a paid social campaign designed to drive measurable dining demand during key periods. The work combined precise audience targeting, clear creative direction, and continuous optimization to ensure the message landed quickly in a fast-scroll environment. 
+        desc={`Planned and executed a paid social campaign designed to drive measurable dining demand during key periods. The work combined precise audience targeting, clear creative direction, and continuous optimization to ensure the message landed quickly in a fast-scroll environment.
 
-The campaign contributed to increased engagement and in-venue traffic, reinforcing paid social as a reliable performance channel rather than just an awareness tool. (images are blurred on purpose, please email me if you have any questions)"
+The campaign contributed to increased engagement and in-venue traffic, reinforcing paid social as a reliable performance channel rather than just an awareness tool. (images are blurred on purpose, please email me if you have any questions)`}
         skills={[
           "Campaign strategy",
           "Audience targeting",
@@ -270,10 +276,10 @@ The campaign contributed to increased engagement and in-venue traffic, reinforci
           "Budget pacing",
           "Performance reporting",
           "Conversion-focused CTAs",
-          "Stakeholder communication"
+          "Stakeholder communication",
         ]}
       />
-      <EmPinnedGallery id="prearrival" images={prearrivalTiles} alt="Pre-arrival panel" />
+      <EmPinnedGallery id="paid" images={prearrivalTiles} alt="Paid campaign panel" />
 
       <EmDivider />
       <EmTextBlock
@@ -292,10 +298,10 @@ The campaign contributed to increased engagement and in-venue traffic, reinforci
           "Basic performance review",
           "Cross-promotion planning",
           "Stakeholder alignment",
-          "Consistency & cadence"
+          "Consistency & cadence",
         ]}
       />
-      <EmPinnedGallery id="golf" images={golfTiles} alt="Golf panel" />
+      <EmPinnedGallery id="static" images={golfTiles} alt="Static content panel" />
 
       <EmDivider />
       <EmTextBlock
@@ -315,9 +321,8 @@ The campaign contributed to increased engagement and in-venue traffic, reinforci
           "Content planning",
         ]}
       />
-      <EmPinnedGallery id="newsletter" images={newsletterTiles} alt="Newsletter panel" />
+      <EmPinnedGallery id="dynamic" images={newsletterTiles} alt="Dynamic content panel" />
 
-      {/* Back to Top Button */}
       <BackToTop />
     </main>
   );
