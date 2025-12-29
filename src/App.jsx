@@ -48,7 +48,7 @@ export default function App() {
         { label: "Social Media", href: "/portfolio/social-media" },
         
         // Change this ↓ from a route to an anchor link
-        { label: "Graphic Design", href: "/portfolio?section=gd" },
+        { label: "Graphic Design", href: "/portfolio?section=graphics" },
       ],
     },
   ];
