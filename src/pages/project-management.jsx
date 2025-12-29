@@ -482,17 +482,20 @@ export default function EmailMarketing() {
           "Performance evaluation",
         ]}
       />
-      <EmMorphingGrid
-        id="headshot"
-        heroSrc="/images/pro headshot event flyer.jpg"
-        tiles={headshotTiles}
-        cols={4}
-        rows={3}
-        gap={24}
-        maxWidth={1875}
-        tileAspectW={4}
-        tileAspectH={3}
-      />
+      <div className="funnel-wrapper">
+        <EmMorphingGrid
+          id="headshot"
+          heroSrc="/images/pro headshot event flyer.jpg"
+          tiles={headshotTiles}
+          cols={4}
+          rows={3}
+          gap={24}
+          maxWidth={1875}
+          tileAspectW={4}
+          tileAspectH={3}
+        />
+      </div>
+
 
       <EmDivider />
       <EmTextBlock
