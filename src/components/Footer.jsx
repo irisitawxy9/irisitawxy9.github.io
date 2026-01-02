@@ -42,6 +42,14 @@ export default function Footer() {
             >
               <img src="/images/instagram 2.png" alt="Instagram" />
             </a>
+            <a
+              className="footer-ig"
+              href="https://github.com/irisitawxy9"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src="/images/github.png" alt="GitHub" />
+            </a>
           </div>
         </div>
       </div>
