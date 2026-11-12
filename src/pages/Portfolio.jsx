@@ -189,7 +189,7 @@ export default function Portfolio() {
 
   const categories = [
     { id: "lifecycle", label: "Marketing Lifecycle", num: "01" },
-    { id: "pm", label: "Project Management", num: "02" },
+    { id: "pm", label: "Project Management(PMP)", num: "02" },
     { id: "tech", label: "AI, Data & Other Technologies", num: "03" },
     { id: "email", label: "Email Marketing", num: "04" },
     { id: "web", label: "Website", num: "05" },
