@@ -127,7 +127,7 @@ export default function Home() {
             </div>
 
             <p className="hero-sub">
-              Business Technologies, Digital Marketing &amp; Design + Camera &nbsp;|&nbsp; Based in Toronto, Ontario.
+              Business Technologies, Digital Marketing &amp; Design, Vacation Planning + Camera &nbsp;|&nbsp; Based in Toronto, Ontario.
             </p>
 
             <div className="hero-cta">
