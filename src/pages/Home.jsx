@@ -139,6 +139,15 @@ export default function Home() {
                 Check Out My Portfolio →
               </Link>
               <a
+                href="https://www.expediacruises.ca/en-CA/IrisWang"
+                className="btn btn-ghost scroll-reveal"
+                style={{ "--delay": "120ms" }}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Book Your Next Vacation With Me →
+              </a>
+               <a
                 href="https://justmomentography.webflow.io"
                 className="btn btn-ghost scroll-reveal"
                 style={{ "--delay": "120ms" }}
